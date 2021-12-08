@@ -13,4 +13,16 @@ statements.get("", authenticate, async (request, response) => {
     .then(account => response.json(account.statement))
 })
 
+statements.get("/date", authenticate, async (request, response) => {
+    const {user_id} = request
+    let {date} = request.query
+
+    const dateFormat = new Date(date + " 00:00")
+    account_service.read(user_id)
+    .then(account => response.json(account.statement.filter(op => 
+        dateFormat.toDateString() === new Date(op.created_at).toDateString()
+    )))  
+    .catch(err => response.status(404).send({message: err.message}))
+})
+
 module.exports = statements

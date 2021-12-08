@@ -5,7 +5,7 @@
 - [V] Deve ser possível buscar o extrato bancário do cliete
 - [V] Deve ser possível realizar um depósito
 - [V] Deve ser possível realizar um saque
-- [] Deve ser possível buscar o extrato bancário do cliente por data
+- [V] Deve ser possível buscar o extrato bancário do cliente por data
 - [] Deve ser possível atualizar dados da conta bancária do cliente
 - [] Deve ser possível obter dados da conta do cliente
 - [V] Deve ser possível deletar uma conta
