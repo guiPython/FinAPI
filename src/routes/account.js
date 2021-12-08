@@ -8,24 +8,27 @@ accounts.get("/:id", (request, response) => {
     const { id } = request.params
     
     service.read(id)
-    .catch(err => response.status(400).send(err.message))
     .then(account => response.json(account))
+    .catch(err => response.status(400).send(err.message))
+    
 })
 
 accounts.post("", async (request, response) => {
     const {cpf, name} = request.body
 
     service.create({cpf, name})
+    .then(_ => response.send({message: "Success", status: 201}))
     .catch(err => response.status(400).send(err.message))
-    .then(_ => response.status(201).send({message: "Success"}))
+    
 })
 
 accounts.delete("/:id", (request, response) => {
     const { id } = request.params
 
     service.delete(id)
+    .then(_ => response.send({message: "Success", status: 200}))
     .catch(err => response.status(404).send({message: err.message}))
-    .then(_ => response.send({message: "Success"}))
+    
 })
 
 
