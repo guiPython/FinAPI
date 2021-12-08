@@ -1,5 +1,5 @@
 const {v4: uuidV4} = require("uuid")
-const repository = require("./repository.js")
+const repository = require("../repository.js")
 
 class Service {
     #repository
