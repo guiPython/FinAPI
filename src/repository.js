@@ -1,6 +1,5 @@
-const {readFileSync, writeFile} = require("fs")
+const {readFileSync, writeFile, existsSync, writeFileSync} = require("fs")
 const {resolve} = require("path");
-const accounts = require("./router");
 class Repository {
     #database
 
@@ -10,6 +9,7 @@ class Repository {
     }
 
     #openConnetion(){
+        if(!existsSync(this.path)) writeFileSync(this.path, "{}")
         return JSON.parse(readFileSync(this.path))
     }
 
@@ -19,7 +19,7 @@ class Repository {
 
     async insert(id, account){
         this.#database[id] = account
-        writeFile(this.path, JSON.stringify(this.#database), (err) => {
+        writeFile(this.path, JSON.stringify(this.#database, null, 4), (err) => {
             if(err) throw Error("Insert Account")
         })
         return account
@@ -27,7 +27,7 @@ class Repository {
 
     async update(id, account){
         this.#database[id] = account
-        writeFile(this.path, JSON.stringify(this.#database), (err) => {
+        writeFile(this.path, JSON.stringify(this.#database, null, 4), (err) => {
             if(err) throw Error("Update Account")
         })
         return account
@@ -35,10 +35,10 @@ class Repository {
 
     async delete(id){
         delete this.#database[id]
-        writeFile(this.path, JSON.stringify(this.#database), (err) => {
+        writeFile(this.path, JSON.stringify(this.#database, null, 4), (err) => {
             if(err) throw Error("Delete Account")
         })
     }
 }
 
-module.exports = new Repository(resolve("../db.json"))
+module.exports = new Repository(resolve("db.json"))
