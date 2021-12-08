@@ -9,7 +9,7 @@ accounts.get("/:id", (request, response) => {
     
     service.read(id)
     .catch(err => response.status(400).send(err.message))
-    .then(account => response.json(account).send())
+    .then(account => response.json(account))
 })
 
 accounts.post("", async (request, response) => {
