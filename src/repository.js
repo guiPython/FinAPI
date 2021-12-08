@@ -1,5 +1,6 @@
 const {readFileSync, writeFile} = require("fs")
-
+const {resolve} = require("path");
+const accounts = require("./router");
 class Repository {
     #database
 
@@ -15,6 +16,14 @@ class Repository {
     select(){ return this.#database }
 
     selectById(id){ return this.#database[id] }
+
+    async insert(id, account){
+        this.#database[id] = account
+        writeFile(this.path, JSON.stringify(this.#database), (err) => {
+            if(err) throw Error("Insert Account")
+        })
+        return account
+    }
 
     async update(id, account){
         this.#database[id] = account
@@ -32,4 +41,4 @@ class Repository {
     }
 }
 
-module.exports = Repository
+module.exports = new Repository(resolve("../db.json"))
