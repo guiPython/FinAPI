@@ -6,10 +6,10 @@
 - [V] Deve ser possível realizar um depósito
 - [V] Deve ser possível realizar um saque
 - [V] Deve ser possível buscar o extrato bancário do cliente por data
-- [] Deve ser possível atualizar dados da conta bancária do cliente
-- [] Deve ser possível obter dados da conta do cliente
+- [V] Deve ser possível atualizar dados da conta bancária do cliente
+- [V] Deve ser possível obter dados da conta do cliente
 - [V] Deve ser possível deletar uma conta
-- [] Deve ser possível retornar o saldo da conta
+- [V] Deve ser possível retornar o saldo da conta
 - [V] Deve salvar as contas em um json local
 
 ## Regras de negócio:

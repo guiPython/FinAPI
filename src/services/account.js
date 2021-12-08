@@ -8,6 +8,13 @@ class Service {
         this.#repository = repository
     }
 
+    #balance(account){
+        return account.statement.reduce((acc, op) => {
+            if(op.type === "credit") return acc + op.amount
+            return acc - op.amount
+        },0)
+    }
+
     async create(account){
         account.statement = []
         let accounts = this.#repository.select()
@@ -19,6 +26,7 @@ class Service {
 
     async read(id){
         let account = this.#repository.selectById(id)
+        account.balance = this.#balance(account)
         if(account == undefined) throw Error("This account not exists")
         return account
     }
@@ -27,6 +35,12 @@ class Service {
         let account = this.#repository.selectById(id)
         if(account == undefined) throw Error("This account not exists")
         await this.#repository.delete(id)
+    }
+
+    async updateCostumerName(id, name){
+        let account = this.#repository.selectById(id)
+        account.name = name
+        await this.#repository.update(id,account)
     }
 }
 

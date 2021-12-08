@@ -1,16 +1,16 @@
 const {Router} = require("express")
 const Service  = require("../services/account.js")
+const authenticate = require("../middleware/authenticator")
 
 const service = new Service()
 const accounts = Router()
 
-accounts.get("/:id", (request, response) => {
-    const { id } = request.params
+accounts.get("", authenticate, (request, response) => {
+    const { user_id } = request
     
-    service.read(id)
+    service.read(user_id)
     .then(account => response.json(account))
-    .catch(err => response.status(400).send(err.message))
-    
+    .catch(err => response.status(400).send(err.message))   
 })
 
 accounts.post("", async (request, response) => {
@@ -18,8 +18,16 @@ accounts.post("", async (request, response) => {
 
     service.create({cpf, name})
     .then(_ => response.send({message: "Success", status: 201}))
-    .catch(err => response.status(400).send(err.message))
-    
+    .catch(err => response.status(400).send(err.message))  
+})
+
+accounts.put("", authenticate, async (request, response) => {
+    const {name} = request.body
+    const {user_id} = request
+
+    service.updateCostumerName(user_id, name)
+    .then(_ => response.status(200).send({message: "Success"}))
+    .catch(err => response.status(400).send({message: err.message}))
 })
 
 accounts.delete("/:id", (request, response) => {
@@ -28,7 +36,6 @@ accounts.delete("/:id", (request, response) => {
     service.delete(id)
     .then(_ => response.send({message: "Success", status: 200}))
     .catch(err => response.status(404).send({message: err.message}))
-    
 })
 
 
